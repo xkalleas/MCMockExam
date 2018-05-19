@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MCMockExam</string>
+    <string name="mi_get_albums">Get Albums</string>
 </resources>
