@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -33,14 +34,22 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.album_list);
         listView.setAdapter(adapter);
 
-        GetAlbumsTask task = new GetAlbumsTask();
-        task.execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);//Menu Resource, Menu
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.get_albums) {
+            GetAlbumsTask task = new GetAlbumsTask();
+            task.execute();
+        }
 
         return true;
     }
