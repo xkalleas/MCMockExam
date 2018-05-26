@@ -21,19 +21,17 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayAdapter adapter;
+    AlbumAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_list_textview);
+        adapter = new AlbumAdapter(this, 0);
 
         ListView listView = (ListView) findViewById(R.id.album_list);
         listView.setAdapter(adapter);
-
     }
 
     @Override
@@ -54,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private class GetAlbumsTask extends AsyncTask<Void, Void, String[]> {
+    private class GetAlbumsTask extends AsyncTask<Void, Void, Album[]> {
 
-        protected String[] doInBackground(Void... voids) {
+        protected Album[] doInBackground(Void... voids) {
             String albumJsonStr = null;
 
             // Get JSON from REST API
@@ -122,17 +120,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            // Turn JSON to Array of Strings
+            // Turn JSON to Array of Albums
 
             try {
                 JSONArray albumJsonArray = new JSONArray(albumJsonStr);
 
-                String[] albumArray = new String[albumJsonArray.length()];
+                Album[] albumArray = new Album[albumJsonArray.length()];
 
                 for (int i = 0; i < albumJsonArray.length(); i++) {
                     JSONObject albumJson = (JSONObject) albumJsonArray.get(i);
 
-                    albumArray[i] = albumJson.getString("title");
+                    Album album = new Album();
+                    album.setId(albumJson.getInt("id"));
+                    album.setTitle(albumJson.getString("title"));
+                    albumArray[i] = album;
                 }
 
                 return albumArray;
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        protected void onPostExecute(String[] albums) {
+        protected void onPostExecute(Album[] albums) {
             adapter.clear();
 
             adapter.addAll(albums);
