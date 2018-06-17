@@ -43,7 +43,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         Album album = (Album) getItem(position);
 
         titleTextView.setText(album.getTitle());
-        thumbnailImageView.setImageResource(R.drawable.ic_lighter);
+        thumbnailImageView.setImageResource(R.drawable.guess_who);
 
         return convertView;
     }
